@@ -89,6 +89,12 @@ p{
     line-height: 130%;
 }
 
+.img-div{
+    max-width: 500px;
+    min-width: 100px;
+    max-height: 500px;
+}
+
 img{
     display: block;
     max-width: 100%;
