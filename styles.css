@@ -89,13 +89,21 @@ p{
     line-height: 130%;
 }
 
+.flexContainer{
+    padding-top: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .img-div{
-    max-width: 500px;
+    max-width: 200px;
     min-width: 100px;
-    max-height: 500px;
+    height: auto;
 }
 
 img{
+    border-radius: 50%;
     display: block;
     max-width: 100%;
     height: auto;
