@@ -3,9 +3,59 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser")
 
+const {Client}  = require('pg');
+
+
+
 const hostname = '127.0.0.1';
 const port = 3000;
 
+// Database connection configuration
+const dbConfig = {
+	user: 'postgres',
+	password: 'password',
+	host: '127.0.0.1',
+	port: '5432',
+	database: 'TestDB',
+};
+
+// Create a new PostgreSQL client
+const client = new Client(dbConfig);
+
+Data = []
+
+// Connect to the database
+client
+	.connect()
+	.then(() => {
+		console.log('Connected to PostgreSQL database');
+
+		// Execute SQL queries here
+
+		client.query('SELECT * FROM employees', (err, result) => {
+			if (err) {
+				console.error('Error executing query', err);
+			} else {
+				console.log('Query result:', result.rows[0].name);
+                Data = result.rows
+			}
+
+			// Close the connection when done
+			client
+				.end()
+				.then(() => {
+					console.log('Connection to PostgreSQL closed');
+				})
+				.catch((err) => {
+					console.error('Error closing connection', err);
+				});
+		});
+	})
+	.catch((err) => {
+		console.error('Error connecting to PostgreSQL database', err);
+	});
+
+console.log(Data);
 
 
 //Server Using Express:
@@ -38,7 +88,8 @@ app.get("/form",(req,res)=>{
 
 app.post("/form",(req,res)=>{
     console.log(req.body)
-    res.send("your name is: "+ req.body.fname + " your age is: "+req.body.lname)
+        res.send("your name is: "+ req.body.fname + " your age is: "+req.body.lname, Data.rows[0].name)
+
 });
 
 
