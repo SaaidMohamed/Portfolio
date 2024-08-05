@@ -22,7 +22,7 @@ const dbConfig = {
 // Create a new PostgreSQL client
 const client = new Client(dbConfig);
 
-Data = []
+DATA = []
 
 // Connect to the database
 client
@@ -32,12 +32,12 @@ client
 
 		// Execute SQL queries here
 
-		client.query('SELECT * FROM employees', (err, result) => {
+		client.query('SELECT * FROM public.employees ORDER BY id ASC ', (err, result) => {
 			if (err) {
 				console.error('Error executing query', err);
 			} else {
-				console.log('Query result:', result.rows[0].name);
-                Data = result.rows
+				console.log('Query result:', result.rows);
+				DATA = result.rows
 			}
 
 			// Close the connection when done
@@ -55,8 +55,13 @@ client
 		console.error('Error connecting to PostgreSQL database', err);
 	});
 
-console.log(Data);
+async function test(){
+	const DATA = await client.query('SELECT * FROM public.employees ORDER BY id ASC ')
+	console.log(DATA)
+	await client.end()
 
+}
+test()
 
 //Server Using Express:
 const app = express();
